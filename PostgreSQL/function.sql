@@ -1,0 +1,26 @@
+CREATE TABLE PGUP (
+	ID INT GENERATED ALWAYS AS IDENTITY,
+	FIRST_NAME VARCHAR,
+	LAST_NAME VARCHAR,
+	PRIMARY KEY (ID)
+);
+
+INSERT INTO
+	PUBLIC.PGUP (FIRST_NAME, LAST_NAME)
+VALUES
+	('Prem', 'Gadhave');
+
+CREATE
+OR REPLACE FUNCTION GET_INFO (P_FIRST_NAME VARCHAR) RETURNS TABLE (FIRST_NAME VARCHAR, LAST_NAME VARCHAR) LANGUAGE PLPGSQL AS $$
+begin 
+return query 
+select u.first_name , u.last_name
+from pgup u
+where u.first_name = p_first_name;
+end;
+$$;
+
+SELECT
+	*
+FROM
+	GET_INFO ('Aryan');
